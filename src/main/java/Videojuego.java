@@ -1,16 +1,26 @@
-/**
- * Interfaz que define las operaciones de base de datos.
- * En los tests, esta interfaz será MOCKEADA.
- * En la App principal, usaremos una implementación "dummy" en memoria.
- */
-public interface VideojuegoRepository {
+public class Videojuego {
+    private String titulo;
+    private String plataforma;
+    private int horasJugadas;
+    private int puntuacion; // 0 a 100
 
-    // Guarda el juego en la base de datos (o array)
-    void guardar(Videojuego juego);
+    public Videojuego(String titulo, String plataforma, int horasJugadas, int puntuacion) {
+        this.titulo = titulo;
+        this.plataforma = plataforma;
+        this.horasJugadas = horasJugadas;
+        this.puntuacion = puntuacion;
+    }
 
-    // Devuelve un array con todos los juegos (puede contener nulos si no está lleno)
-    Videojuego[] obtenerTodos();
+    // Getters y Setters
+    public String getTitulo() { return titulo; }
+    public String getPlataforma() { return plataforma; }
+    public int getHorasJugadas() { return horasJugadas; }
+    public int getPuntuacion() { return puntuacion; }
 
-    // Busca un juego por título exacto
-    Videojuego buscarPorTitulo(String titulo);
+    public void setPuntuacion(int puntuacion) { this.puntuacion = puntuacion; }
+
+    @Override
+    public String toString() {
+        return titulo + " (" + plataforma + ") - " + horasJugadas + "h";
+    }
 }

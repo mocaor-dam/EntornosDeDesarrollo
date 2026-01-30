@@ -46,7 +46,7 @@ class RepositorioEnMemoria implements VideojuegoRepository {
 
     @Override
     public Videojuego[] obtenerTodos() {
-        // Devuelve el array completo, INCLUYENDO LOS HUECOS NULL
+        // Devuelve el array completo, incluyendo los huecos que esten null.
         return baseDeDatos;
     }
 

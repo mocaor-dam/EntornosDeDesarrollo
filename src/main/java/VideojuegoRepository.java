@@ -5,10 +5,10 @@
  */
 public interface VideojuegoRepository {
 
-    // Guarda el juego en la base de datos (o array)
+    // Guarda el juego en la base de datos
     void guardar(Videojuego juego);
 
-    // Devuelve un array con todos los juegos (puede contener nulos si no está lleno)
+    // Devuelve un array con todos los juegos
     Videojuego[] obtenerTodos();
 
     // Busca un juego por título exacto
