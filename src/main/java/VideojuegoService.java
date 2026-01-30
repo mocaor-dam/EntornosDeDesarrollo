@@ -11,6 +11,8 @@ public class VideojuegoService {
      * Registra un juego nuevo.
      * BUG: No valida si el título es null o vacío.
      * BUG: No valida si las horas son negativas.
+     *
+     * ARREGLADO SOLO LE FALTABA DOS CODICIONES SI ERA EL TITULO VACIO O NULO Y HORAS SEAN NO NEGATIVAS
      */
     public void registrarJuego(String titulo, String plataforma, int horas, int puntuacion) {
         if(titulo == null || titulo.isEmpty()){
@@ -29,6 +31,8 @@ public class VideojuegoService {
      * - 0 a 49: "Malo"
      * - 50 a 89: "Bueno"
      * - 90 a 100: "Obra Maestra"
+     *
+     * ARREGLADO (ERA EN LOS PARAMETROS IF (50-90) Y EL RETURN QUE SOBRA DEL FINAL
      */
     public String clasificarJuego(int puntuacion) {
         if (puntuacion < 0 || puntuacion > 100) {
@@ -62,6 +66,8 @@ public class VideojuegoService {
     /**
      * Calcula el total de horas jugadas en toda la biblioteca.
      * BUG: No gestiona los nulos en el array. Si el array tiene huecos, lanzará NullPointerException.
+     *
+     * ARREGLADO
      */
     public int calcularTotalHoras() {
         Videojuego[] todos = repository.obtenerTodos();

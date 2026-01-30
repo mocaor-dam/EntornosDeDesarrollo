@@ -31,6 +31,7 @@ public class GameLogApp {
     }
 }
 
+// --- Implementación simple para poder ejecutar el código sin Mockito ---
 class RepositorioEnMemoria implements VideojuegoRepository {
     // Array fijo simulando la tabla de base de datos
     private Videojuego[] baseDeDatos = new Videojuego[5];
@@ -46,7 +47,7 @@ class RepositorioEnMemoria implements VideojuegoRepository {
 
     @Override
     public Videojuego[] obtenerTodos() {
-        // Devuelve el array completo, incluyendo los huecos que esten null.
+        // Devuelve el array completo, INCLUYENDO LOS HUECOS NULL
         return baseDeDatos;
     }
 
