@@ -9,42 +9,26 @@ import org.mockito.Mockito;
 
 
 
-/**
- * Pruebas unitarias para {@link VideojuegoService} usando JUnit 5 y Mockito.
- *
- * <p>
- * Esta clase crea un mock de {@link VideojuegoRepository} y verifica el comportamiento
- * público del servicio {@link VideojuegoService} en distintos escenarios:
- * clasificación por puntuación, validaciones de entrada, registro de juegos y uso de stubs.
- * </p>
- */
 public class VideojuegoServiceTest {
 
     /**
      * Mock del repositorio usado para simular las operaciones de persistencia.
-     *
-     * @see VideojuegoRepository
      */
-    private VideojuegoRepository repositoryMock;
+    private VideojuegoRepository vr;
 
-    /**
-     * Instancia del servicio bajo prueba. Se inyecta el {@link #repositoryMock} para
-     * aislar la lógica de negocio de la capa de datos.
-     */
-    private VideojuegoService service;
+
+    private VideojuegoService vs;
 
     /**
      * Inicializa el mock y la instancia del servicio antes de cada test.
-     *
-     * <p>
      * Se ejecuta antes de cada método de prueba para asegurar un estado limpio y evitar
      * dependencias entre tests.
-     * </p>
+     *
      */
     @BeforeEach
     void setUp() {
-        repositoryMock = Mockito.mock(VideojuegoRepository.class);
-        service = new VideojuegoService(repositoryMock);
+        vr = Mockito.mock(VideojuegoRepository.class);
+        vs = new VideojuegoService(vr);
     }
 
     /**
@@ -61,11 +45,11 @@ public class VideojuegoServiceTest {
      */
     @Test
     void clasificarJuego_limites() {
-        assertEquals("Malo", service.clasificarJuego(0));
-        assertEquals("Malo", service.clasificarJuego(49));
-        assertEquals("Bueno", service.clasificarJuego(50));
-        assertEquals("Bueno", service.clasificarJuego(89));
-        assertEquals("Obra Maestra", service.clasificarJuego(90));
+        assertEquals("Malo", vs.clasificarJuego(0));
+        assertEquals("Malo", vs.clasificarJuego(49));
+        assertEquals("Bueno", vs.clasificarJuego(50));
+        assertEquals("Bueno", vs.clasificarJuego(89));
+        assertEquals("Obra Maestra", vs.clasificarJuego(90));
     }
 
     /**
@@ -80,7 +64,7 @@ public class VideojuegoServiceTest {
      */
     @Test
     void clasificarJuego_fueraDeRango() {
-        assertThrows(IllegalArgumentException.class, () -> service.clasificarJuego(120));
+        assertThrows(IllegalArgumentException.class, () -> vs.clasificarJuego(120));
     }
 
     /**
@@ -104,7 +88,7 @@ public class VideojuegoServiceTest {
     })
     void esJuegoLargo_parametrizado(String plataforma, int horas, boolean esperado) {
         Videojuego juego = new Videojuego("Test", plataforma, horas, 80);
-        assertEquals(esperado, service.esJuegoLargo(juego));
+        assertEquals(esperado, vs.esJuegoLargo(juego));
     }
 
     /**
@@ -114,7 +98,7 @@ public class VideojuegoServiceTest {
     @Test
     void registrarJuego_tituloNulo() {
         assertThrows(IllegalArgumentException.class, () ->
-                service.registrarJuego(null, "PC", 10, 80)
+                vs.registrarJuego(null, "PC", 10, 80)
         );
     }
 
@@ -125,7 +109,7 @@ public class VideojuegoServiceTest {
     @Test
     void registrarJuego_conTituloYHorasNegativo() {
         assertThrows(IllegalArgumentException.class, () ->
-                service.registrarJuego("Sonic", "PC", -20, 80)
+                vs.registrarJuego("Sonic", "PC", -20, 80)
         );
     }
 
@@ -136,7 +120,7 @@ public class VideojuegoServiceTest {
     @Test
     void registrarJuego_tituloVacio() {
         assertThrows(IllegalArgumentException.class, () ->
-                service.registrarJuego("", "PC", 10, 80)
+                vs.registrarJuego("", "PC", 10, 80)
         );
     }
 
@@ -151,8 +135,8 @@ public class VideojuegoServiceTest {
      */
     @Test
     void registrarJuego_valido_verifyGuardar() {
-        service.registrarJuego("Zelda", "Switch", 80, 95);
-        verify(repositoryMock, times(1)).guardar(any(Videojuego.class));
+        vs.registrarJuego("Zelda", "Switch", 80, 95);
+        verify(vr, times(1)).guardar(any(Videojuego.class));
     }
 
     /**
@@ -168,9 +152,9 @@ public class VideojuegoServiceTest {
     @Test
     void stub_buscarEldenRing() {
         Videojuego eldenRing = new Videojuego("Elden Ring", "PC", 120, 95);
-        when(repositoryMock.buscarPorTitulo("Elden Ring")).thenReturn(eldenRing);
+        when(vr.buscarPorTitulo("Elden Ring")).thenReturn(eldenRing);
 
-        Videojuego resultado = repositoryMock.buscarPorTitulo("Elden Ring");
+        Videojuego resultado = vr.buscarPorTitulo("Elden Ring");
 
         assertNotNull(resultado);
         assertEquals("Elden Ring", resultado.getTitulo());
